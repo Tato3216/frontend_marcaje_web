@@ -150,20 +150,44 @@ Si el repositorio utiliza `master` como la rama principal y deseas cambiar a `ma
     git push origin --delete master
     ```
 
-5. **Actualizar tu repositorio local**:
+# Estructura de la Aplicación
 
-    ```bash
-    git fetch origin
-    ```
+La aplicación se divide en dos partes principales: **Frontend** y **Backend**. A continuación se describe cada una de ellas:
 
-## Contribuciones
+## 1. Frontend (Angular)
 
-Si deseas contribuir al proyecto, por favor, abre un *issue* o envía un *pull request* con tus cambios.
+El frontend está desarrollado con Angular y se encarga de la interfaz de usuario. Su estructura es la siguiente:
 
-## Licencia
+- **`src/`**: Contiene el código fuente de la aplicación.
+  - **`app/`**: Directorio principal con los módulos y componentes.
+    - **`auth/`**: Módulo y componentes para autenticación (`login.component.ts`, `auth.service.ts`, etc.).
+    - **`employee/`**: Módulo y componentes para la gestión de empleados (`employee-list/`, `employee-form/`, etc.).
+    - **`time-tracking/`**: Componente para el seguimiento de tiempo.
+    - **`core/`**: Servicios y módulos esenciales para la aplicación.
+    - **`app-routing.module.ts`**: Configuración de rutas de la aplicación.
+    - **`app.component.ts`**: Componente principal de la aplicación.
+    - **`app.module.ts`**: Módulo principal de la aplicación.
+  - **`assets/`**: Archivos estáticos como imágenes y fuentes.
+  - **`styles.css`**: Estilos globales de la aplicación.
+  - **`index.html`**: Documento HTML principal cargado al iniciar la aplicación.
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+## 2. Backend (Spring Boot)
 
----
+El backend está desarrollado con Spring Boot y proporciona las API necesarias para interactuar con el frontend. Su estructura incluye:
 
-**Nota:** Asegúrate de ajustar las rutas y configuraciones según tus necesidades y entorno.
+- **`src/main/java/com/ejemplo/backend/`**: Código fuente del backend en Java.
+  - **`controller/`**: Controladores REST para manejar las solicitudes.
+  - **`model/`**: Clases que representan las entidades de la base de datos.
+  - **`repository/`**: Interfaces para acceder a los datos (CRUD).
+  - **`service/`**: Lógica de negocio y servicios de la aplicación.
+- **`src/main/resources/`**: Archivos de configuración y recursos.
+  - **`application.properties`**: Configuración de la aplicación, como conexión a la base de datos.
+  - **`static/`**: Recursos estáticos servidos directamente por el backend.
+
+## Integración y Despliegue
+
+- **Frontend**: Se construye usando Angular y los archivos resultantes se despliegan en un servidor web, configurado con Nginx.
+- **Backend**: Se ejecuta en un servidor de aplicaciones, como Apache Tomcat, y se comunica con el frontend a través de APIs REST.
+
+Esta estructura asegura que el frontend y el backend estén claramente separados, facilitando el desarrollo y mantenimiento de la aplicación.
+
