@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmpleadoService } from '../employee.service';
 import { Employee } from '../employee.model';
 import { Router } from '@angular/router';
-import { environment } from '../../../enviroments/enviroment';
+import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 
