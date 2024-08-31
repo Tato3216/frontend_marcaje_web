@@ -1,0 +1,34 @@
+<div class="time-tracking">
+    <h2>Time Tracking</h2>
+  
+    <button (click)="onMarkEntry()" class="btn mark-entry">Mark Entry</button>
+    <button (click)="onMarkExit()" class="btn mark-exit">Mark Exit</button>
+  
+    <div *ngIf="!sessionActive">
+      <button (click)="iniciarSesion()" class="btn start-session">Start Session</button>
+    </div>
+    
+    <div *ngIf="sessionActive">
+      <button (click)="finalizarSesion()" class="btn end-session">End Session</button>
+    </div>
+  
+    <!-- Confirm entry dialog -->
+    <div *ngIf="showEntryConfirmation">
+      <p>Are you sure you want to mark entry?</p>
+      <button (click)="confirmEntry()" class="btn confirm">Yes</button>
+      <button (click)="cancel()" class="btn cancel">No</button>
+    </div>
+  
+    <!-- Confirm exit dialog -->
+    <div *ngIf="showExitConfirmation">
+      <p>Are you sure you want to mark exit?</p>
+      <button (click)="confirmExit()" class="btn confirm">Yes</button>
+      <button (click)="cancel()" class="btn cancel">No</button>
+    </div>
+  
+    <!-- Buttons for additional actions -->
+    <button (click)="logout()" class="btn logout">Logout</button>
+    <button (click)="viewHistory()" class="btn history">View History</button>
+    <button (click)="refreshStatus()" class="btn refresh">Refresh Status</button>
+  </div>
+  

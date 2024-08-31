@@ -1,0 +1,26 @@
+<div class="add-employee-container">
+    <h2>Agregar Empleado</h2>
+    <form (ngSubmit)="addEmployee()">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" required>
+      </div>
+      <div class="form-group">
+        <label for="activo">Activo</label>
+        <select id="activo" [(ngModel)]="activo" name="activo" required>
+          <option [value]="true">Sí</option>
+          <option [value]="false">No</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Agregar Empleado</button>
+    </form>
+  </div>
+  
