@@ -77,10 +77,6 @@ Este repositorio contiene un proyecto de gestión de empleados con funcionalidad
         }
 
         error_page 404 /index.html;
-
-        gzip on;
-        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-        gzip_vary on;
     }
     ```
 
