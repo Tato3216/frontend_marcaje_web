@@ -1,31 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Employee } from './employee.model';
 import { environment } from '../../environments/environment';
-
-
-// export interface Empleado {
-//   id?: number;
-//   nombre: string;
-//   email: string;
-//   contrasena?: string;
-//   activo: number;
-// }
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpleadoService  {
-  private baseUrl  = `${environment.apiUrl}/api/empleados`;
+  private baseUrl  = `${environment.apiUrl}/api`;
   constructor(private http: HttpClient) {}
 
-  getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.baseUrl);
+  getEmpleados(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/empleados`).pipe(
+      tap((data) => console.log('Datos de empleados:', data)) // Para ver los datos que recibes
+    );
+    // return this.http.get<Employee[]>(this.baseUrl);
   }
 
-  getEmployeeById(id: number): Observable<Employee> {
-    return this.http.get<Employee>(`${this.baseUrl}/${id}`);
+  getEmployeeById(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/empleados/${id}`);
+    // return this.http.get<Employee>(`${this.baseUrl}/${id}`);
   }
 
   addEmployee(employee: Employee): Observable<HttpResponse<Employee>> {

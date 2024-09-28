@@ -6,15 +6,17 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) {}
 
   canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
+    const token = localStorage.getItem('auth-token');
+    // const token = this.authService.getToken();
+    console.log('Token para el guard:', token);
+    if (token) {
+      return true; // Permite el acceso si hay un token
     } else {
-      this.router.navigate(['/login']);
-      return false;
+      this.router.navigate(['/login']); // Redirige a login si no hay token
+      return false; // Bloquea el acceso
     }
   }
 }

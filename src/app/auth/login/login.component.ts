@@ -21,8 +21,11 @@ export class LoginComponent {
     console.log('Datos enviados:', { email: this.email, contrasena: this.contrasena });
     this.authService.login(this.email, this.contrasena).subscribe(
       response => {
-        console.log(response); 
-        if (response.message === 'Validación exitosa') {
+        console.log('Login response:', response);
+        if (response.token) {//.message === 'Validación exitosa') {
+          console.log('Token:', response.token);
+          localStorage.setItem('token', response.token);
+          console.log(localStorage.getItem('token'));
           this.router.navigate(['/employees']);
         } else {
           alert('Login failed');

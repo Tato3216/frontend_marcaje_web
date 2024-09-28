@@ -1,0 +1,8 @@
+<nav class="navbar" *ngIf="shouldDisplayNavbar()">
+    <ul>
+      <li><a routerLink="/employees">Empleados</a></li>
+      <li><a routerLink="/tracking">Tracking</a></li>
+      <li (click)="logout()">Salir</li>
+    </ul>
+  </nav>
+  

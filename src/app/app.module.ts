@@ -11,9 +11,10 @@ import { TimeTrackingComponent } from './time-tracking/time-tracking.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { approutes, AppRoutingModule } from './app-routing.module';
-import { HttpInterceptorService } from './core/http-interceptor.service';
 import { AppComponent } from './app.component';
 import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
+import { AuthInterceptor } from './core/http/authinterceptor.service';
+import { NavbarComponent } from './navbar/navbar.component';
 // import { RegisterComponent } from './auth/register/register.component';
 
 
@@ -25,7 +26,8 @@ import { AddEmployeeComponent } from './employee/add-employee/add-employee.compo
     LoginComponent,
     EmployeeFormComponent,
     EmployeeListComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    NavbarComponent
     // RegisterComponent
   ],
   imports: [
@@ -41,13 +43,9 @@ import { AddEmployeeComponent } from './employee/add-employee/add-employee.compo
     // EmployeeRoutingModule
   ],
   providers:[
-    // {
-    //     provide: HTTP_INTERCEPTORS,
-    //     useClass: HttpInterceptorService,
-    //     multi: true
-    //   },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // AuthService,
-    AuthGuard,
+    AuthGuard
     // bootstrap:[],
   ],
   bootstrap: [AppComponent]

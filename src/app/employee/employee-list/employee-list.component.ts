@@ -13,23 +13,44 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class EmployeeListComponent implements OnInit {
   empleados: Employee[] = [];
-  private apiUrl  = `${environment.apiUrl}/api/empleados`;
+  // empleados: any[] = [];
+
+  // private apiUrl  = `${environment.apiUrl}/api/empleados`;
   constructor(private empleadoService: EmpleadoService, private router: Router,private http: HttpClient
   ,private authService: AuthService )
   {}
 
   ngOnInit(): void {
-    this.getEmpleados();
-  }
-
-  getEmpleados(): void {
-    this.http.get<any[]>(this.apiUrl).subscribe(
+    this.empleadoService.getEmpleados().subscribe(
       data => {
         this.empleados = data;
-        console.log('Empleados:', this.empleados);
       },
-      error => {
-        console.error('Error al cargar los empleados:', error);
+      err => {
+        console.error('Error obteniendo empleados', err);
+      }
+    );
+  }
+
+  // getEmpleados(): void {
+  //   this.http.get<any[]>(this.apiUrl).subscribe(
+  //     data => {
+  //       this.empleados = data;
+  //       console.log('Empleados:', this.empleados);
+  //     },
+  //     error => {
+  //       console.error('Error al cargar los empleados:', error);
+  //     }
+  //   );
+  // }
+
+  obtenerEmpleados(): void {
+    this.empleadoService.getEmpleados().subscribe(
+      (data) => {
+        console.log('Empleados obtenidos:', data); // Verifica si los datos llegan al componente
+        this.empleados = data;
+      },
+      (error) => {
+        console.error('Error al obtener empleados:', error); // Para verificar si hay errores
       }
     );
   }

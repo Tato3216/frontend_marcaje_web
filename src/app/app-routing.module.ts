@@ -10,15 +10,16 @@ import { AddEmployeeComponent } from './employee/add-employee/add-employee.compo
 // import { RegisterComponent } from './auth/register/register.component';
 
 export const approutes: Routes = [
-  { path: '', component: AppComponent },
+  // { path: '**', redirectTo: ''},
+  // { path: '', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'employees', component: EmployeeListComponent},
-  { path: 'time-tracking', component: TimeTrackingComponent },
-  { path: 'employee-form', component: EmployeeFormComponent },
-  { path: 'employees/edit/:id', component: EmployeeFormComponent },
-  { path: 'add-employee', component: AddEmployeeComponent },
-  { path: '**', redirectTo: '/login' }
+  { path: 'employees', component: EmployeeListComponent, canActivate: [AuthGuard] },
+  { path: 'time-tracking', component: TimeTrackingComponent, canActivate: [AuthGuard]  },
+  { path: 'employee-form', component: EmployeeFormComponent, canActivate: [AuthGuard]  },
+  { path: 'employees/edit/:id', component: EmployeeFormComponent, canActivate: [AuthGuard]  },
+  { path: 'add-employee', component: AddEmployeeComponent, canActivate: [AuthGuard]  },
+  // { path: '**', redirectTo: '/login' }
   // { path: 'register', component: RegisterComponent },
 ];
 
