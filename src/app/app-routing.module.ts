@@ -7,6 +7,7 @@ import { TimeTrackingComponent } from './time-tracking/time-tracking.component';
 import { EmployeeFormComponent } from './employee/employee-form/employee-form.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
+import { HomeComponent } from './home/home/home.component';
 // import { RegisterComponent } from './auth/register/register.component';
 
 export const approutes: Routes = [
@@ -19,8 +20,7 @@ export const approutes: Routes = [
   { path: 'employee-form', component: EmployeeFormComponent, canActivate: [AuthGuard]  },
   { path: 'employees/edit/:id', component: EmployeeFormComponent, canActivate: [AuthGuard]  },
   { path: 'add-employee', component: AddEmployeeComponent, canActivate: [AuthGuard]  },
-  // { path: '**', redirectTo: '/login' }
-  // { path: 'register', component: RegisterComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

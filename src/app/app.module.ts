@@ -28,7 +28,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     EmployeeListComponent,
     AddEmployeeComponent,
     NavbarComponent
-    // RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,16 +36,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     CommonModule,
     FormsModule,
     CommonModule,
-    // RouterModule.forRoot(approutes)
-    // AuthRoutingModule
-    // RouterModule.forChild([{ path:'login', component:LoginComponent}]),
-    // EmployeeRoutingModule
   ],
   providers:[
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    // AuthService,
     AuthGuard
-    // bootstrap:[],
   ],
   bootstrap: [AppComponent]
 })

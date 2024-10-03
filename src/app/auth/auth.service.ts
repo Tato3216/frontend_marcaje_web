@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable ,of } from 'rxjs';
+import { BehaviorSubject, Observable ,of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -11,6 +11,8 @@ export class AuthService {
   // private isLoggedIn = false;
   private apiUrl = `${environment.apiUrl}`;
   private tokenKey = 'auth-token';
+  // private isAdmin = false;
+  private userRoleSubject = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {}
   
@@ -19,14 +21,46 @@ export class AuthService {
     .pipe(map((response:any) => {
       if (response && response.token ) {
         localStorage.setItem(this.tokenKey, response.token);
+        this.checkRole();
       }
       return response;
     }));
+  }
+
+  checkRole() {
+    this.http.get(`${this.apiUrl}/modoAdmin`, { responseType: 'text' }).subscribe({
+      next: (response) => {
+        this.userRoleSubject.next('admin');
+        localStorage.setItem('userRole', 'admin');
+        console.log('usuario es admin');
+      },
+      error: (err) => {
+        console.error('Error en /modoAdmin:', err);
+        if (err.status === 403) {
+          this.http.get(`${this.apiUrl}/modoUser`, { responseType: 'text' }).subscribe({
+            next: (response) => {
+              this.userRoleSubject.next('user');
+              localStorage.setItem('userRole', 'user');
+            },
+            error: () => {
+              console.error('Error al obtener el rol del usuario');
+            }
+          });
+        }
+      }
+    });
+  }
+
+  getUserRole(): Observable<string> {
+    return this.userRoleSubject.asObservable(); 
   }
   
   logout(): void {
     // Eliminar el token al cerrar sesión
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('username');
+    this.userRoleSubject.next('');
   }
   
   getToken(): string | null {

@@ -23,10 +23,10 @@ export class EmpleadoService  {
     // return this.http.get<Employee>(`${this.baseUrl}/${id}`);
   }
 
-  addEmployee(employee: Employee): Observable<HttpResponse<Employee>> {
+  addEmployee(employee: any): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // return this.http.post<Employee>(this.baseUrl, employee);
-    return this.http.post<Employee>(this.baseUrl, employee, { headers, observe: 'response' });
+    return this.http.post<any>(`${this.baseUrl}/createEmployee`, employee, { headers, observe: 'response' });
   }
 
   updateEmployee(employee: Employee): Observable<void> {

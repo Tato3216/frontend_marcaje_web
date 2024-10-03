@@ -22,11 +22,12 @@ export class LoginComponent {
     this.authService.login(this.email, this.contrasena).subscribe(
       response => {
         console.log('Login response:', response);
-        if (response.token) {//.message === 'Validación exitosa') {
+        if (response.token) {
+          this.authService.checkRole();
           console.log('Token:', response.token);
-          localStorage.setItem('token', response.token);
-          console.log(localStorage.getItem('token'));
-          this.router.navigate(['/employees']);
+          // localStorage.setItem('token', response.token);
+          localStorage.setItem('username', response.username);
+          this.router.navigate(['/home']);
         } else {
           alert('Login failed');
         }

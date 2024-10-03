@@ -7,19 +7,20 @@ import { EmpleadoService } from '../employee.service';
   styleUrls: ['./add-employee.component.css']
 })
 export class AddEmployeeComponent {
-  nombre: string = '';
+  username: string = '';
   email: string = '';
   contrasena: string = '';
   activo: boolean = true;
+  roles: string[] = ['USER']; 
 
   constructor(private empleadoService: EmpleadoService) {}
 
   addEmployee(): void {
     const newEmployee = {
-      nombre: this.nombre,
+      username: this.username,
       email: this.email,
       contrasena: this.contrasena,
-      activo: this.activo ? 1 : 0
+      roles: this.roles
     };
 
     console.log('Datos del empleado que se enviarán:', newEmployee);
@@ -38,9 +39,10 @@ export class AddEmployeeComponent {
   }
 
   resetForm(): void {
-    this.nombre = '';
+    this.username = '';
     this.email = '';
     this.contrasena = '';
     this.activo = true;
+    this.roles = ['USER'];
   }
 }
