@@ -8,16 +8,13 @@ import { EmployeeFormComponent } from './employee/employee-form/employee-form.co
 import { AuthGuard } from './auth/auth.guard';
 import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
 import { HomeComponent } from './home/home/home.component';
-// import { RegisterComponent } from './auth/register/register.component';
 
 export const approutes: Routes = [
-  // { path: '**', redirectTo: ''},
-  // { path: '', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'employees', component: EmployeeListComponent, canActivate: [AuthGuard] },
   { path: 'time-tracking', component: TimeTrackingComponent, canActivate: [AuthGuard]  },
-  { path: 'employee-form', component: EmployeeFormComponent, canActivate: [AuthGuard]  },
+  { path: 'time-tracking/:id', component: TimeTrackingComponent, canActivate: [AuthGuard]  },
   { path: 'employees/edit/:id', component: EmployeeFormComponent, canActivate: [AuthGuard]  },
   { path: 'add-employee', component: AddEmployeeComponent, canActivate: [AuthGuard]  },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]}

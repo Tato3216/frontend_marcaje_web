@@ -13,31 +13,24 @@ export class EmpleadoService  {
 
   getEmpleados(): Observable<any> {
     return this.http.get(`${this.baseUrl}/empleados`).pipe(
-      tap((data) => console.log('Datos de empleados:', data)) // Para ver los datos que recibes
+      tap((data) => console.log('Datos de empleados:', data)) 
     );
-    // return this.http.get<Employee[]>(this.baseUrl);
   }
 
   getEmployeeById(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/empleados/${id}`);
-    // return this.http.get<Employee>(`${this.baseUrl}/${id}`);
   }
 
   addEmployee(employee: any): Observable<HttpResponse<any>> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    // return this.http.post<Employee>(this.baseUrl, employee);
     return this.http.post<any>(`${this.baseUrl}/createEmployee`, employee, { headers, observe: 'response' });
   }
 
-  updateEmployee(employee: Employee): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${employee.id}`, employee);
+  updateEmployee(id: number, employeeData: Partial<Employee>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/empleados/${id}`, employeeData);
   }
 
   updateEmployeeStatus(id: number, status: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/estado/${id}/${status}`, {});
-  }
-
-  deleteEmployee(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.put<void>(`${this.baseUrl}/empleados/estado/${id}/${status}`, {});
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit,OnDestroy{
   isAdmin: boolean = false;
   private userRoleSubscription: Subscription| undefined;
 
@@ -24,9 +24,16 @@ export class NavbarComponent implements OnInit{
     this.router.navigate(['/add-employee']);
   }
 
+  irTracking(): void {
+    const empleadoId = localStorage.getItem('empleadoId');
+    if (empleadoId) {
+      this.router.navigate([`/time-tracking/${empleadoId}`]);
+    }
+  }
+
   ngOnInit() {
     this.userRoleSubscription = this.authService.getUserRole().subscribe(role => {
-      this.isAdmin = role === 'admin'; // Actualizar isAdmin basado en el rol
+      this.isAdmin = role === 'admin';
     });
 
     this.updateUserRole();
@@ -39,8 +46,6 @@ export class NavbarComponent implements OnInit{
   }
 
   updateUserRole() {
-    // const userRole = this.authService.getUserRole();
-    // this.isAdmin = userRole === 'admin';
   }
 
   logout() {

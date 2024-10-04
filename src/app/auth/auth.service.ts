@@ -8,10 +8,8 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  // private isLoggedIn = false;
   private apiUrl = `${environment.apiUrl}`;
   private tokenKey = 'auth-token';
-  // private isAdmin = false;
   private userRoleSubject = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {}
@@ -21,6 +19,8 @@ export class AuthService {
     .pipe(map((response:any) => {
       if (response && response.token ) {
         localStorage.setItem(this.tokenKey, response.token);
+        localStorage.setItem('empleadoId', response.empleadoId.toString());
+        console.log(response.empleadoId.toString());
         this.checkRole();
       }
       return response;
@@ -56,10 +56,8 @@ export class AuthService {
   }
   
   logout(): void {
-    // Eliminar el token al cerrar sesión
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('username');
+    // limpiar localStorage
+    localStorage.clear();
     this.userRoleSubject.next('');
   }
   

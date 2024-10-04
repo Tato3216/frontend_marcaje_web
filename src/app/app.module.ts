@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-// import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { EmployeeFormComponent } from './employee/employee-form/employee-form.component';
 import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
@@ -15,9 +14,6 @@ import { AppComponent } from './app.component';
 import { AddEmployeeComponent } from './employee/add-employee/add-employee.component';
 import { AuthInterceptor } from './core/http/authinterceptor.service';
 import { NavbarComponent } from './navbar/navbar.component';
-// import { RegisterComponent } from './auth/register/register.component';
-
-
 
 @NgModule({
   declarations: [

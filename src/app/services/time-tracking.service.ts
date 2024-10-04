@@ -7,19 +7,19 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class TimeTrackingService {
-  private apiUrl = '/api'; // Asegúrate de que esta URL coincida con tu configuración de backend
+  private baseUrl = `${environment.apiUrl}/api`;
 
   constructor(private http: HttpClient) {}
 
-  marcarEntradaSalida(userId: number, tipo: 'ENTRADA' | 'SALIDA'): Observable<any> {
-    return this.http.post(`${this.apiUrl}/registros/${userId}/marcaje/${tipo}`, {});
+  iniciarSesion(id: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/sesion/inicio/${id}`, {});
   }
 
-  iniciarSesion(userId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/sesion/inicio/${userId}`, {});
+  finalizarSesion(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/sesion/fin/${id}`, {});
   }
 
-  finalizarSesion(sessionId: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/sesion/fin/${sessionId}`, {});
+  registrarMarcaje(id: number, tipo: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/registros/${id}/marcaje/${tipo}`, {});
   }
 }

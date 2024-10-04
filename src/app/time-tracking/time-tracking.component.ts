@@ -1,79 +1,84 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TimeTrackingService } from '../services/time-tracking.service';
+import { ActivatedRoute } from '@angular/router';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-time-tracking',
   templateUrl: './time-tracking.component.html',
-  styleUrls: ['./time-tracking.component.css'] // Corregir el nombre de la propiedad: styleUrls
+  styleUrls: ['./time-tracking.component.css'] 
 })
-export class TimeTrackingComponent{
-  hasEntry: boolean = false;
-  hasExit: boolean = false;
-  showEntryConfirmation: boolean = false;
-  showExitConfirmation: boolean = false;
-  sessionActive: boolean = true;
-  userId: number = 1;
+export class TimeTrackingComponent implements OnInit{
+  currentTime: string = '';
   sessionId: number | null = null;
+  empleadoId: number;
+  username: string = '';
+  sesionInfo: any;
 
-  constructor(
-    private timeTrackingService: TimeTrackingService
-  ) {}
-
-  onMarkEntry(): void {
-    this.timeTrackingService.marcarEntradaSalida(this.userId, 'ENTRADA').subscribe(response => {
-      this.hasEntry = true;
-      this.showEntryConfirmation = false;
-    });
+  constructor(private trackingService: TimeTrackingService) {
+    const storedEmpleadoId = localStorage.getItem('empleadoId');
+    this.empleadoId = storedEmpleadoId ? parseInt(storedEmpleadoId, 10) : 0;
+    const storedUsername = localStorage.getItem('username');
+    this.username = storedUsername ? storedUsername : 'Empleado';
   }
 
-  onMarkExit(): void {
-    this.timeTrackingService.marcarEntradaSalida(this.userId, 'SALIDA').subscribe(response => {
-      this.hasExit = true;
-      this.showExitConfirmation = false;
+  ngOnInit(): void {
+    interval(1000).subscribe(() => {
+      this.currentTime = new Date().toLocaleTimeString();
     });
   }
 
   iniciarSesion(): void {
-    this.timeTrackingService.iniciarSesion(this.userId).subscribe(response => {
-      this.sessionId = response.id; // Suponiendo que el backend devuelve el ID de la sesión
-      this.sessionActive = true;
+    if (!this.empleadoId) {
+      console.error('El empleadoId es inválido.');
+      return;
+    }
+
+    this.trackingService.iniciarSesion(this.empleadoId).subscribe({
+      next: (response) => {
+        if (typeof response === 'number') {
+          this.sessionId = response;
+          console.log('Sesión iniciada, id:', this.sessionId);
+        } else {
+          console.error('Respuesta inválida del servidor:', response);
+        }
+      },
+      error: (err) => {
+        console.error('Error al iniciar la sesión:', err);
+      }
     });
   }
 
   finalizarSesion(): void {
-    if (this.sessionId) {
-      this.timeTrackingService.finalizarSesion(this.sessionId).subscribe(() => {
-        this.sessionActive = false;
-        this.sessionId = null;
+    if (!this.sessionId) {
+      console.error('El sessionId es inválido.');
+      return;
+    }
+  
+    this.trackingService.finalizarSesion(this.sessionId).subscribe({
+      next: (response) => {
+        this.sesionInfo = response;
+        console.log('Sesión finalizada:', this.sesionInfo);
+      },
+      error: (err) => {
+        console.error('Error al finalizar la sesión:', err);
+      }
+    });
+  }
+
+  registrarEntrada(): void {
+    if (this.empleadoId) {
+      this.trackingService.registrarMarcaje(this.empleadoId, 'ENTRADA').subscribe((response) => {
+        console.log('Entrada registrada con ID:', response.id);
       });
     }
   }
 
-  logout(): void {
-    // Implementa la lógica para cerrar sesión si es necesario
-    // Esto podría incluir llamar a un servicio de autenticación para manejar la lógica de cierre de sesión.
-  }
-
-  viewHistory(): void {
-    // Implementa la lógica para ver el historial de registros si es necesario
-    // Esto podría incluir redirigir a una página de historial o mostrar un modal con la información.
-  }
-
-  refreshStatus(): void {
-    // Implementa la lógica para actualizar el estado del seguimiento de tiempo si es necesario
-    // Esto podría incluir llamar a un servicio para obtener el estado actual.
-  }
-
-  confirmEntry(): void {
-    this.onMarkEntry();
-  }
-
-  confirmExit(): void {
-    this.onMarkExit();
-  }
-
-  cancel(): void {
-    this.showEntryConfirmation = false;
-    this.showExitConfirmation = false;
+  registrarSalida(): void {
+    if (this.empleadoId) {
+      this.trackingService.registrarMarcaje(this.empleadoId, 'SALIDA').subscribe((response) => {
+        console.log('Salida registrada con ID:', response.id);
+      });
+    }
   }
 }

@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
 
 @Component({
   selector: 'app-login',
@@ -25,7 +22,6 @@ export class LoginComponent {
         if (response.token) {
           this.authService.checkRole();
           console.log('Token:', response.token);
-          // localStorage.setItem('token', response.token);
           localStorage.setItem('username', response.username);
           this.router.navigate(['/home']);
         } else {

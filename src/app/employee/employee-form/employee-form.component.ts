@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { EmpleadoService } from '../employee.service';
 import { Employee } from '../employee.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-form',
@@ -16,7 +14,8 @@ export class EmployeeFormComponent implements OnInit {
     nombre: '',
     email: '',
     contrasena: '',
-    activo: 1 // Asumimos que el empleado se crea activo por defecto
+    activo: 1,
+    username: ''
   };
   isEditing = false;
 
@@ -35,14 +34,21 @@ export class EmployeeFormComponent implements OnInit {
       });
     }
   }
-
   saveEmployee(): void {
+    const updatedEmployee = {
+      email: this.employee.email,
+      username: this.employee.username,
+      contrasena: this.employee.contrasena
+    };
     if (this.isEditing) {
-      this.employeeService.updateEmployee(this.employee).subscribe(() => {
+      this.employeeService.updateEmployee(this.employee.id, updatedEmployee).subscribe(() => {
+        this.employeeService.updateEmployeeStatus(this.employee.id, this.employee.activo).subscribe(() => {
+        alert('Empleado actualizado con éxito');
         this.router.navigate(['/employees']);
       });
+      });
     } else {
-      this.employeeService.addEmployee(this.employee).subscribe(() => {
+      this.employeeService.addEmployee(updatedEmployee).subscribe(() => {
         this.router.navigate(['/employees']);
       });
     }

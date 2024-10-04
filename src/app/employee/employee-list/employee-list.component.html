@@ -3,32 +3,26 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
-        <th>Actions</th>
+        <th>No.</th>
+        <th>Usuario</th>
+        <th>Correo</th>
+        <th>Estado</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let employee of empleados">
         <td>{{ employee.id }}</td>
-        <td>{{ employee.nombre }}</td>
+        <td>{{ employee.username }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ employee.activo === 1 ? 'Active' : 'Inactive' }}</td>
-        <td>  
+        <td class="actions-cell">  
+          <div class="actions">
           <button (click)="editEmployee(employee.id)" class="btn edit">Edit</button>
-          <button (click)="employee.id !== undefined && marcarEntrada(employee.id)" class="btn marcar-entrada">Marcar Entrada</button>
-          <button (click)="employee.id !== undefined && marcarSalida(employee.id)" class="btn marcar-salida">Marcar Salida</button>
-          <button (click)="employee.id !== undefined && iniciarSesion(employee.id)" class="btn iniciar-sesion">Iniciar Sesión</button>
-          <button (click)="employee.id !== undefined && terminarSesion(employee.id)" class="btn terminar-sesion">Terminar Sesión</button>
-          <button (click)="employee.id !== undefined && actualizarEstadoEmpleado(employee.id, employee.activo === 1 ? 0 : 1)" class="btn">
-            {{ employee.activo === 1 ? 'Desactivar' : 'Activar' }}
-          </button>
+          <button (click)="marcarTracking(employee.id)" class="btn tracking">Marcar Tracking</button>
+        </div>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <!-- <button (click)="registrarEmpleado()" class="btn-add">Agregar Nuevo Empleado</button> -->
 </div>

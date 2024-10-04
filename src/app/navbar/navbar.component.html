@@ -2,8 +2,7 @@
     <ul>
       <li *ngIf="isAdmin"><a routerLink="/employees">Empleados</a></li>
       <li *ngIf="isAdmin"><a (click)="registrarEmpleado()" >Agregar Empleado</a></li>
-      <li><a routerLink="/tracking">Tracking</a></li>
+      <li><a (click)="irTracking()">Tracking</a></li>
       <li (click)="logout()">Salir</li>
     </ul>
   </nav>
-  

@@ -11,7 +11,7 @@ export class AddEmployeeComponent {
   email: string = '';
   contrasena: string = '';
   activo: boolean = true;
-  roles: string[] = ['USER']; 
+  role: string = 'USER';
 
   constructor(private empleadoService: EmpleadoService) {}
 
@@ -20,14 +20,13 @@ export class AddEmployeeComponent {
       username: this.username,
       email: this.email,
       contrasena: this.contrasena,
-      roles: this.roles
+      roles: [this.role] 
     };
-
-    console.log('Datos del empleado que se enviarán:', newEmployee);
 
     this.empleadoService.addEmployee(newEmployee).subscribe(
       response => {
         if (response.status === 200) {
+          alert('Empleado agregado con éxito');
         console.log('Empleado agregado con éxito:', response);
         this.resetForm();
         }
@@ -43,6 +42,6 @@ export class AddEmployeeComponent {
     this.email = '';
     this.contrasena = '';
     this.activo = true;
-    this.roles = ['USER'];
+    this.role = 'USER';
   }
 }
