@@ -42,8 +42,8 @@ export class EmployeeListComponent implements OnInit {
 
   marcarTracking(id: number | undefined): void {
     if (id !== undefined) {
+      localStorage.setItem('empleadoId', id.toString());
       this.router.navigate(['/time-tracking', id]);
-      console.log('ruta',id);
-    }
+    }  
   }
 }

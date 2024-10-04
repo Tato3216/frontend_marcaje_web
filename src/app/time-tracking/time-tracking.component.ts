@@ -11,18 +11,28 @@ import { interval } from 'rxjs';
 export class TimeTrackingComponent implements OnInit{
   currentTime: string = '';
   sessionId: number | null = null;
-  empleadoId: number;
+  empleadoId: number = 0;
   username: string = '';
   sesionInfo: any;
 
-  constructor(private trackingService: TimeTrackingService) {
-    const storedEmpleadoId = localStorage.getItem('empleadoId');
-    this.empleadoId = storedEmpleadoId ? parseInt(storedEmpleadoId, 10) : 0;
+  constructor(
+    private trackingService: TimeTrackingService,
+    private route: ActivatedRoute) {
     const storedUsername = localStorage.getItem('username');
     this.username = storedUsername ? storedUsername : 'Empleado';
   }
 
   ngOnInit(): void {
+    const storedSessionId = localStorage.getItem('sessionId');
+    this.sessionId = storedSessionId ? parseInt(storedSessionId, 10) : null;
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.empleadoId = parseInt(id, 10);
+      }
+    });
+
     interval(1000).subscribe(() => {
       this.currentTime = new Date().toLocaleTimeString();
     });
@@ -38,6 +48,7 @@ export class TimeTrackingComponent implements OnInit{
       next: (response) => {
         if (typeof response === 'number') {
           this.sessionId = response;
+          localStorage.setItem('sessionId', response.toString());
           console.log('Sesión iniciada, id:', this.sessionId);
         } else {
           console.error('Respuesta inválida del servidor:', response);
@@ -58,6 +69,8 @@ export class TimeTrackingComponent implements OnInit{
     this.trackingService.finalizarSesion(this.sessionId).subscribe({
       next: (response) => {
         this.sesionInfo = response;
+        this.sessionId = null;
+        localStorage.removeItem('sessionId');
         console.log('Sesión finalizada:', this.sesionInfo);
       },
       error: (err) => {

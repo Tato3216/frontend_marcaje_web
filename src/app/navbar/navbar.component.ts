@@ -26,9 +26,11 @@ export class NavbarComponent implements OnInit,OnDestroy{
 
   irTracking(): void {
     const empleadoId = localStorage.getItem('empleadoId');
-    if (empleadoId) {
-      this.router.navigate([`/time-tracking/${empleadoId}`]);
-    }
+  if (empleadoId) {
+    this.router.navigate([`/time-tracking/${empleadoId}`]);
+  } else {
+    console.warn('No se encontró un empleadoId.');
+  }
   }
 
   ngOnInit() {
